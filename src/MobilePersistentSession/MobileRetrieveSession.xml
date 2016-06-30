@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobilePersistentSession.widget.MobileRetrieveSession" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileRetrieveSession</name>
+    <description>The description of this widget.</description>
+
+    <icon />
+
+    <properties>
+        <property key="fallbackMicroflow" type="microflow">
+            <caption>Fallback Microflow</caption>
+            <category>Behavior</category>
+            <description>A microflow that navigates to another page, if there are no saved credentials, or the credentials are no good.</description>
+			<returnType type="Void" />
+        </property>
+	</properties>
+</widget>
+

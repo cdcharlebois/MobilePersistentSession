@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobilePersistentSession.widget.MobilePinCodePrompt" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobilePinCodePrompt</name>
+    <description>If this page is visible when the app goes into the background, the app will prompt for a fingerprint or passcode when re-activating it.</description>
+
+    <icon />
+
+    <properties>
+		<property key="title" type="string">
+            <caption>Title</caption>
+            <category>Display</category>
+            <description>Title of the pin prompt.</description>
+        </property>
+		<property key="message" type="string">
+            <caption>Message</caption>
+            <category>Display</category>
+            <description>Message (sub-title) of the pin prompt.</description>
+        </property>
+		
+        <property key="successMicroflow" type="microflow">
+            <caption>Success Microflow</caption>
+            <category>Behavior</category>
+            <description>Microflow to call when the user touches the OK button.</description>
+			<returnType type="Void" />
+        </property>
+		<property key="cancelMicroflow" type="microflow">
+            <caption>Cancel Microflow</caption>
+            <category>Behavior</category>
+            <description>Microflow to call when the user touches the cancel button.</description>
+			<returnType type="Void" />
+        </property>
+		<property key="pinCodeAttribute" type="attribute">
+            <caption>Pin Code Attribute</caption>
+            <category>Behavior</category>
+            <description>The attribute of the context entity that the widget will write the pin code into.</description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+        </property>		
+	</properties>
+</widget>
+

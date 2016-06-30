@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobilePersistentSession.widget.MobilePinCodeLock" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobilePinCodeLock</name>
+    <description>If this page is visible when the app goes into the background, the app will prompt for a fingerprint or passcode when re-activating it.</description>
+
+    <icon />
+
+    <properties>
+		<property key="title" type="string">
+            <caption>Title</caption>
+            <category>Display</category>
+            <description>Title of the pin prompt.</description>
+        </property>
+		<property key="message" type="string">
+            <caption>Message</caption>
+            <category>Display</category>
+            <description>Message (sub-title) of the pin prompt.</description>
+        </property>
+		<property key="touchIdPrompt" type="string" defaultValue="Scan your fingerprint to unlock AppName">
+            <caption>TouchId Text</caption>
+            <category>Display</category>
+            <description>Prompt text for Apple Touch ID.</description>
+        </property>		
+			
+		<property key="pinCodeEntity" type="entity" allowNonPersistableEntities="true">
+			<caption>Pin Code Entity</caption>
+			<category>Behavior</category>
+			<description>An entity that this user can create (with a Pin Code integer he can edit), to be used when calling the validation microflow</description>
+		</property>
+		<property key="pinCodeAttribute" type="attribute" entityProperty="pinCodeEntity">
+            <caption>Pin Code Attribute</caption>
+            <category>Behavior</category>
+            <description>The attribute of the Pin Code entity that will be populated with the user-entered pin code.</description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+        </property>
+        <property key="validationMicroflow" type="microflow" entityProperty="pinCodeEntity">
+            <caption>Validation Microflow</caption>
+            <category>Behavior</category>
+            <description>Microflow to call when the user touches the OK button. Should return true for successful validation against a stored pin. NOTE: note called when using TouchID.</description>
+			<returnType type="Boolean" />
+        </property>
+        <property key="successMicroflow" type="microflow" required="false">
+            <caption>Success Microflow</caption>
+            <category>Behavior</category>
+            <description>Optional: Microflow to call when validation is successful.</description>
+			<returnType type="Void" />
+        </property>		
+		<property key="numAttemptsAllowed" type="integer" defaultValue="3">
+            <caption>Num Attempts</caption>
+            <category>Behavior</category>
+            <description>The number of pin entry attempts allowed.</description>
+        </property>
+		<property key="enabledAttr" type="attribute" required="true">
+            <caption>Enabled Attribute</caption>
+            <category>Behavior</category>
+            <description>An attribute on the context entity that determines whether locking is enabled.</description>
+			<attributeTypes>
+				<attributeType name="Boolean" />
+			</attributeTypes>			
+        </property>		
+		<property key="useTouchIdAttr" type="attribute" required="true">
+            <caption>Use Apple Touch ID</caption>
+            <category>Behavior</category>
+            <description>An attribute on the context entity that enables Apple Touch ID (fingerprint scanning) as the default code entry method.</description>
+			<attributeTypes>
+				<attributeType name="Boolean" />
+			</attributeTypes>			
+        </property>
+	
+		<property key="lockNow" type="boolean" defaultValue="false">
+            <caption>Lock Now</caption>
+            <category>Behavior</category>
+            <description>Causes this widget to just lock the screen now. Otherwise, it sets up an app resume listener.</description>
+        </property>		
+	</properties>
+</widget>

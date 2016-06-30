@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://www.mendix.com/package/1.0/">
+    <clientModule name="MobilePersistentSession" version="1.0" xmlns="http://www.mendix.com/clientModule/1.0/">
+        <widgetFiles>
+            <widgetFile path="MobilePersistentSession/MobileSaveSession.xml" />
+			<widgetFile path="MobilePersistentSession/MobileRetrieveSession.xml" />
+			<widgetFile path="MobilePersistentSession/MobilePinCodePrompt.xml" />
+			<widgetFile path="MobilePersistentSession/MobilePinCodeLock.xml" />	
+        </widgetFiles>
+        <files>
+            <file path="MobilePersistentSession/widget/" />
+        </files>
+    </clientModule>
+</package>
