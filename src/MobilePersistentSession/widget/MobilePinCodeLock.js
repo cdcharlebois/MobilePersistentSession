@@ -7,7 +7,7 @@
     @version   : 1.0
     @author    : Eric Tieniber
     @date      : Mon, 13 Jun 2016 18:15:07 GMT
-    @copyright : 
+    @copyright :
     @license   : MIT
 
     Documentation
@@ -60,29 +60,29 @@ define([
 		_numTries: 0,
 		_listener: null,
 		_usePin: false,
-		
+
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function () {
             logger.debug(this.id + ".constructor");
-            
+
         },
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function () {
             logger.debug(this.id + ".postCreate");
-			
+
         },
 
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
         update: function (obj, callback) {
             logger.debug(this.id + ".update");
-			
+
 			this._contextObj = obj;
-			
+
 			if (this._contextObj) {
 				if (this.pinCodeEntity !== null && this.pinCodeAttribute) {
 					//If the plugin exists, great, show the dialog. Otherwise, show an error.
-					if(window.cordova && window.plugins && window.plugins.pinDialog) {   
+					if(window.cordova && window.plugins && window.plugins.pinDialog) {
 						if (this.lockNow) {
 							this._prompt();
 						} else {
@@ -91,12 +91,12 @@ define([
 					} else {
 						//mx.ui.error("Sorry, your device does not support pin codes.");
 					}
-				}				
+				}
 			}
-			
+
 			callback();
         },
-			
+
 		_prompt: function() {
 			if (this._contextObj && this._contextObj.get(this.enabledAttr)) {
 				if (!this._usePin && window.plugins.touchid && this._contextObj && this._contextObj.get(this.useTouchIdAttr)) {
@@ -109,44 +109,44 @@ define([
 				}
 			}
 		},
-		
+
 		_showPinPrompt: function() {
 			this._lockBackButton();
-			
-			window.plugins.pinDialog.prompt(this.message, dojoLang.hitch(this, this._promptCallback), this.title, ["OK","Cancel"]);	
+
+			window.plugins.pinDialog.prompt(this.message, dojoLang.hitch(this, this._promptCallback), this.title, ["OK","Cancel"]);
 		},
-		
+
 		_lockBackButton: function() {
-			document.addEventListener("backbutton", this._backButtonEventHandler, false);			
+			document.addEventListener("backbutton", this._backButtonEventHandler, false);
 		},
-		
+
 		_unlockBackButton: function() {
 			document.removeEventListener("backbutton", this._backButtonEventHandler, false);
 		},
-		
+
 		_backButtonEventHandler: function(e) {
 			e.preventDefault();
-			navigator.app.exitApp();		
+			navigator.app.exitApp();
 		},
-		
+
 		_showTouchIdPrompt: function() {
 			window.plugins.touchid.verifyFingerprintWithCustomPasswordFallbackAndEnterPasswordLabel(
 			  this.touchIdPrompt, // this will be shown in the native scanner popup
 			  'Enter PIN', // this will become the 'Enter password' button label
 			   dojoLang.hitch(this, this._validationSuccess), // success handler: fingerprint accepted
 			   dojoLang.hitch(this, this._touchIdFail) // error handler with errorcode and localised reason
-			);	
+			);
 		},
-			
+
 		_promptCallback: function(results) {
 			if(results.buttonIndex == 1) {
 				// OK clicked, set value in context entity (pinCodeAttribute), then call validation microflow
 				//this._context.set(this.pinCodeAttribute, results.input1);
 				this._enteredPin = results.input1;
-				
+
 				this._createPinCodeEntity(this._callValidation, this._validationFail);
-				
-			} else if(results.buttonIndex == 2) {
+
+			} else if(results.buttonIndex == 2 || results.buttonIndex == 0) {
 				// Cancel clicked
 				if (window.localStorage && window.localStorage.loginToken) {
 					window.localStorage.removeItem("loginToken");
@@ -154,7 +154,7 @@ define([
 				mx.logout();
 			}
 		},
-		
+
 		_createPinCodeEntity: function(success, error) {
 			mx.data.create({
 				entity: this.pinCodeEntity,
@@ -162,7 +162,7 @@ define([
 				error: error
 			}, this);
 		},
-		
+
 		_callValidation: function (mxObj) {
 			//Code here for setting attributes!
 			mxObj.set(this.pinCodeAttribute, this._enteredPin);
@@ -179,9 +179,9 @@ define([
 				callback: dojoLang.hitch(this, function (myBool) {
 					//TODO what to do when all is ok!
 					if (myBool) {
-						this._validationSuccess();	
+						this._validationSuccess();
 					} else {
-						this._validationFail();	
+						this._validationFail();
 					}
 				}),
 				error: function (error) {
@@ -189,7 +189,7 @@ define([
 				}
 			}, this);
 		},
-		
+
 		_validationSuccess: function() {
 			//if there's a success MF, call it
 			if (this.successMicroflow) {
@@ -197,7 +197,7 @@ define([
 					params: {
 						applyto: "selection",
 						actionname: this.successMicroflow,
-						guids: [this._contextObj.getGuid()]						
+						guids: [this._contextObj.getGuid()]
 					},
 					store: {
 						caller: this.mxform
@@ -211,7 +211,7 @@ define([
 				}, this);
 			}
 		},
-		
+
 		_touchIdFail: function(msg) {
 			if(msg && msg.code == -3) {
 				//Use PIN button touched
@@ -221,10 +221,10 @@ define([
 				this._validationFail();
 			}
 		},
-		
+
 		_validationFail: function() {
 			this._numTries = this._numTries + 1;
-			
+
 			if (this._numTries > this.numAttemptsAllowed) {
 				if (window.localStorage && window.localStorage.loginToken) {
 					window.localStorage.removeItem("loginToken");
@@ -240,7 +240,7 @@ define([
           logger.debug(this.id + ".uninitialize");
             // Clean up listeners, helper objects, etc. There is no need to remove listeners added with this.connect / this.subscribe / this.own.
 			if (this._listener) {
-				this._listener.remove();	
+				this._listener.remove();
 			}
         }
     });
